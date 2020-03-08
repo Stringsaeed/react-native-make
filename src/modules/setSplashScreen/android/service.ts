@@ -40,8 +40,8 @@ const addReactNativeSplashScreen = (
   addLaunchScreenBackgroundColor(backgroundColor);
 
   copyFile(
-    join(__dirname, '../../../../templates/android/drawable/splashscreen.xml'),
-    `${ANDROID_MAIN_RES_PATH}/drawable/splashscreen.xml`
+    join(__dirname, '../../../../templates/android/drawable/background_splash.xml'),
+    `${ANDROID_MAIN_RES_PATH}/drawable/background_splash.xml`
   );
   copyFile(
     join(__dirname, `../../../../templates/android/layout/launch_screen.${resizeMode}.xml`),
@@ -56,29 +56,29 @@ const addReactNativeSplashScreen = (
     getAndroidPackageName()
   )}/MainActivity.java`;
 
-  applyPatch(mainActivityPath, {
-    pattern: /^(.+?)(?=import)/gs,
-    patch: 'import android.os.Bundle;\n' + 'import org.devio.rn.splashscreen.SplashScreen;\n',
-  });
-
-  const onCreateRegExp = /^.*onCreate.*[\r\n]/gm;
-
-  if (readFile(mainActivityPath).match(onCreateRegExp)) {
-    applyPatch(mainActivityPath, {
-      pattern: onCreateRegExp,
-      patch: 'SplashScreen.show(this, R.style.SplashScreenTheme);',
-    });
-  } else {
-    applyPatch(mainActivityPath, {
-      pattern: /^.*MainActivity.*[\r\n]/gm,
-      patch:
-        '    @Override\n' +
-        '    protected void onCreate(Bundle savedInstanceState) {\n' +
-        '        SplashScreen.show(this, R.style.SplashScreenTheme);\n' +
-        '        super.onCreate(savedInstanceState);\n' +
-        '    }',
-    });
-  }
+  // applyPatch(mainActivityPath, {
+  //   pattern: /^(.+?)(?=import)/gs,
+  //   patch: 'import android.os.Bundle;\n' + 'import org.devio.rn.splashscreen.SplashScreen;\n',
+  // });
+  //
+  // const onCreateRegExp = /^.*onCreate.*[\r\n]/gm;
+  //
+  // if (readFile(mainActivityPath).match(onCreateRegExp)) {
+  //   applyPatch(mainActivityPath, {
+  //     pattern: onCreateRegExp,
+  //     patch: 'SplashScreen.show(this, R.style.SplashScreenTheme);',
+  //   });
+  // } else {
+  //   applyPatch(mainActivityPath, {
+  //     pattern: /^.*MainActivity.*[\r\n]/gm,
+  //     patch:
+  //       '    @Override\n' +
+  //       '    protected void onCreate(Bundle savedInstanceState) {\n' +
+  //       '        SplashScreen.show(this, R.style.SplashScreenTheme);\n' +
+  //       '        super.onCreate(savedInstanceState);\n' +
+  //       '    }',
+  //   });
+  // }
 };
 
 const generateAndroidSplashImages = (imageSource: string) =>
@@ -86,7 +86,7 @@ const generateAndroidSplashImages = (imageSource: string) =>
     config.androidSplashImages.map(({ size, density }) =>
       generateResizedAssets(
         imageSource,
-        `${ANDROID_MAIN_RES_PATH}/drawable-${density}/splash_image.png`,
+        `${ANDROID_MAIN_RES_PATH}/mipmap-${density}/splash_screen.png`,
         size,
         size,
         {
