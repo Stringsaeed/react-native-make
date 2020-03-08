@@ -52,9 +52,9 @@ const addReactNativeSplashScreen = (
     patch: readFile(join(__dirname, '../../../../templates/android/values/styles-splash.xml')),
   });
 
-  const mainActivityPath = `${ANDROID_MAIN_PATH}/java/${convertAndroidPackageNameToUri(
-    getAndroidPackageName()
-  )}/MainActivity.java`;
+  // const mainActivityPath = `${ANDROID_MAIN_PATH}/java/${convertAndroidPackageNameToUri(
+  //   getAndroidPackageName()
+  // )}/MainActivity.java`;
 
   // applyPatch(mainActivityPath, {
   //   pattern: /^(.+?)(?=import)/gs,
